@@ -8,13 +8,14 @@
   <style>
     * {
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       margin: 0;
+      font-family: Arial, sans-serif;
       background: #f4f6f8;
-      color: #222;
+      color: #202124;
     }
 
     .app {
@@ -22,193 +23,532 @@
       margin: 0 auto;
       min-height: 100vh;
       background: #ffffff;
-      padding-bottom: 80px;
+      padding-bottom: 82px;
+      overflow-x: hidden;
     }
 
-    .header {
-      background: #1f7a4d;
+    .top-header {
+      background: #159947;
       color: white;
-      padding: 20px;
-      border-bottom-left-radius: 24px;
-      border-bottom-right-radius: 24px;
+      padding: 18px 16px 22px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    .header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .header p {
-      margin: 8px 0 0;
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .section {
-      padding: 18px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 14px;
-    }
-
-    .service-card {
+    .top-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #f8faf9;
-      border: 1px solid #e1e8e4;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 12px;
+      gap: 12px;
     }
 
-    .service-info h3 {
+    .location-box {
+      max-width: 245px;
+    }
+
+    .location-title {
+      font-size: 21px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .location-sub {
+      font-size: 13px;
+      margin-top: 6px;
+      opacity: 0.92;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .round-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: white;
+      color: #159947;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      position: relative;
+    }
+
+    .gift-badge {
+      position: absolute;
+      bottom: -6px;
+      font-size: 10px;
+      background: #fff3c4;
+      color: #222;
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #e9fff1, #ffffff);
+      padding: 18px 16px;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+
+    .hero-card {
+      background: #dff6e8;
+      border-radius: 22px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 150px;
+      overflow: hidden;
+    }
+
+    .hero h1 {
       margin: 0;
+      font-size: 27px;
+      line-height: 1.08;
+      color: #103b25;
+    }
+
+    .hero p {
+      margin: 8px 0 14px;
+      color: #23613f;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .hero button {
+      background: white;
+      color: #103b25;
+      border: 0;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .hero-art {
+      font-size: 72px;
+      opacity: 0.95;
+    }
+
+    .section {
+      padding: 18px 14px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 900;
+      margin: 0;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    .services-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .service-card {
+      border: 1px solid #e4ebe7;
+      border-radius: 16px;
+      overflow: hidden;
+      background: white;
+      min-height: 210px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .rating {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: white;
+      color: #777;
+      font-size: 11px;
+      padding: 5px 7px;
+      border-bottom-left-radius: 12px;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .rating span {
+      color: #f3c23a;
+    }
+
+    .service-img {
+      height: 95px;
+      background: #eef4f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+    }
+
+    .service-info {
+      padding: 12px 10px;
+    }
+
+    .service-name {
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.15;
+      min-height: 38px;
+    }
+
+    .price-row {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .new-price {
+      font-weight: 900;
       font-size: 16px;
     }
 
-    .service-info p {
-      margin: 6px 0 0;
+    .old-price {
+      color: #999;
+      font-size: 12px;
+      text-decoration: line-through;
+      font-weight: 700;
+    }
+
+    .add-btn {
+      position: absolute;
+      right: 9px;
+      bottom: 9px;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      border: 1px solid #dce7e1;
+      background: white;
+      color: #0bb35b;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 700;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+
+    .new-tag {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #ff1438;
+      color: white;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 5px 9px;
+      border-bottom-right-radius: 10px;
+      z-index: 3;
+    }
+
+    .trust-section {
+      padding: 22px 14px;
+    }
+
+    .trust-title {
+      font-size: 23px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .trust-subtitle {
       color: #666;
       font-size: 14px;
+      margin-bottom: 16px;
     }
 
-    .price {
-      font-weight: bold;
-      color: #1f7a4d;
-      margin-top: 6px;
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
 
-    button {
-      border: none;
-      background: #1f7a4d;
-      color: white;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    .cart-box {
-      background: #fff7e6;
-      border: 1px solid #f0d59c;
+    .trust-card {
+      background: #f8faf9;
       border-radius: 16px;
-      padding: 14px;
+      padding: 14px 8px;
+      text-align: center;
+      border: 1px solid #e4ebe7;
+    }
+
+    .trust-card .icon {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .trust-card p {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .cart-panel,
+    .booking-panel,
+    .profile-panel {
+      padding: 18px 14px;
+    }
+
+    .page-title {
+      font-size: 26px;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .box {
+      background: white;
+      border-radius: 18px;
+      border: 1px solid #e4ebe7;
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      margin-bottom: 14px;
     }
 
     .cart-item {
       display: flex;
       justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #edd8aa;
-      font-size: 14px;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid #edf1ef;
+      gap: 10px;
     }
 
     .cart-item:last-child {
-      border-bottom: none;
+      border-bottom: 0;
     }
 
-    .total {
+    .cart-name {
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .cart-small {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .remove-btn {
+      background: #fff0f0;
+      color: #c62828;
+      border: 0;
+      padding: 7px 9px;
+      border-radius: 9px;
+      font-weight: 800;
+    }
+
+    .bill-row {
       display: flex;
       justify-content: space-between;
-      margin-top: 12px;
-      font-size: 17px;
-      font-weight: bold;
+      margin: 10px 0;
+      font-size: 15px;
     }
 
-    .booking-box {
-      background: #f8faf9;
-      border-radius: 16px;
-      padding: 14px;
-      border: 1px solid #e1e8e4;
+    .bill-total {
+      font-size: 20px;
+      font-weight: 900;
+      border-top: 1px dashed #ddd;
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    .note {
+      background: #ecfff3;
+      color: #14733c;
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 700;
     }
 
     label {
       display: block;
-      font-size: 14px;
+      font-size: 13px;
+      font-weight: 800;
       margin: 12px 0 6px;
-      color: #444;
+      color: #555;
     }
 
     input,
     select,
     textarea {
       width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      font-size: 14px;
+      padding: 13px;
+      border: 1px solid #d6ded9;
+      border-radius: 13px;
+      font-size: 15px;
+      background: #fbfcfc;
     }
 
     textarea {
-      resize: none;
       height: 80px;
+      resize: none;
     }
 
-    .full-btn {
+    .primary-btn {
       width: 100%;
-      margin-top: 16px;
-      padding: 14px;
-      font-size: 16px;
+      padding: 15px;
+      border: 0;
       border-radius: 14px;
+      background: #0bb35b;
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+      margin-top: 16px;
     }
 
-    .note {
-      background: #eaf7ef;
-      color: #1f7a4d;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      margin-top: 12px;
+    .secondary-btn {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #0bb35b;
+      border-radius: 14px;
+      background: white;
+      color: #0bb35b;
+      font-size: 15px;
+      font-weight: 900;
+      margin-top: 10px;
     }
 
-    .empty {
-      font-size: 14px;
+    .empty-box {
+      text-align: center;
+      padding: 45px 16px;
       color: #777;
     }
 
-    .success {
-      display: none;
+    .empty-icon {
+      font-size: 58px;
+      margin-bottom: 12px;
+    }
+
+    .booking-card {
+      background: white;
+      border: 1px solid #e4ebe7;
+      border-radius: 18px;
+      padding: 15px;
+      margin-bottom: 14px;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      background: #fff8e1;
+      color: #8a5a00;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .payment-status {
       background: #eaf7ef;
-      border: 1px solid #b6e0c3;
-      color: #1f7a4d;
-      padding: 14px;
+      color: #14733c;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .profile-head {
+      background: #103b25;
+      color: white;
+      padding: 24px 18px;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+
+    .profile-name {
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .profile-phone {
+      opacity: 0.8;
+      margin-top: 6px;
+      font-weight: 700;
+    }
+
+    .profile-menu {
+      padding: 18px 14px;
+    }
+
+    .menu-item {
+      background: white;
+      border: 1px solid #e4ebe7;
+      padding: 16px;
       border-radius: 16px;
-      margin-top: 14px;
-      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .bottom-nav {
       position: fixed;
-      bottom: 0;
       left: 50%;
+      bottom: 0;
       transform: translateX(-50%);
       max-width: 430px;
       width: 100%;
       background: white;
-      border-top: 1px solid #ddd;
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 0;
+      border-top: 1px solid #e5e5e5;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 6px 10px;
+      z-index: 99;
     }
 
-    .bottom-nav button {
-      background: none;
-      color: #333;
-      font-size: 13px;
-      padding: 8px;
+    .nav-btn {
+      border: 0;
+      background: transparent;
+      padding: 9px 4px;
+      color: #666;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 14px;
     }
 
-    .bottom-nav button.active {
-      color: #1f7a4d;
-      font-weight: bold;
+    .nav-btn.active {
+      background: #e8f8ee;
+      color: #0bb35b;
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 21px;
+      margin-bottom: 3px;
     }
 
     .page {
@@ -218,100 +558,158 @@
     .page.active {
       display: block;
     }
+
+    .toast {
+      position: fixed;
+      bottom: 92px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      z-index: 200;
+      display: none;
+      max-width: 330px;
+      text-align: center;
+    }
+
+    @media (max-width: 360px) {
+      .services-grid {
+        gap: 8px;
+      }
+
+      .service-name {
+        font-size: 13px;
+      }
+
+      .service-img {
+        height: 82px;
+        font-size: 45px;
+      }
+
+      .service-card {
+        min-height: 195px;
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class="app">
-    <div class="header">
-      <h1>Home Service App</h1>
-      <p>Book trusted home services near you</p>
-    </div>
 
     <!-- HOME PAGE -->
     <div id="homePage" class="page active">
-      <div class="section">
-        <div class="section-title">Available Services</div>
-
-        <div class="service-card">
-          <div class="service-info">
-            <h3>Room Cleaning</h3>
-            <p>Basic room cleaning service</p>
-            <div class="price">₹299</div>
+      <header class="top-header">
+        <div class="top-row">
+          <div class="location-box">
+            <div class="location-title">Home ▾</div>
+            <div class="location-sub">Nalbari / Assam service area</div>
           </div>
-          <button onclick="addToCart('Room Cleaning', 299)">Add</button>
+
+          <div class="header-icons">
+            <div class="round-icon">₹</div>
+            <div class="round-icon">🎁<span class="gift-badge">₹100</span></div>
+            <div class="round-icon">👤</div>
+          </div>
         </div>
+      </header>
 
-        <div class="service-card">
-          <div class="service-info">
-            <h3>Bathroom Cleaning</h3>
-            <p>Deep bathroom cleaning</p>
-            <div class="price">₹399</div>
+      <div class="hero">
+        <div class="hero-card">
+          <div>
+            <h1>Clean Home.<br>Zero Stress.</h1>
+            <p>Book trusted home help</p>
+            <button onclick="scrollToServices()">BOOK NOW</button>
           </div>
-          <button onclick="addToCart('Bathroom Cleaning', 399)">Add</button>
-        </div>
-
-        <div class="service-card">
-          <div class="service-info">
-            <h3>Kitchen Cleaning</h3>
-            <p>Kitchen platform and floor cleaning</p>
-            <div class="price">₹499</div>
-          </div>
-          <button onclick="addToCart('Kitchen Cleaning', 499)">Add</button>
-        </div>
-
-        <div class="service-card">
-          <div class="service-info">
-            <h3>Full Home Cleaning</h3>
-            <p>Complete home cleaning package</p>
-            <div class="price">₹999</div>
-          </div>
-          <button onclick="addToCart('Full Home Cleaning', 999)">Add</button>
+          <div class="hero-art">🏠</div>
         </div>
       </div>
+
+      <section id="servicesSection" class="section">
+        <h2 class="section-title">Services we offer</h2>
+        <div class="section-subtitle">Schedule & book for later</div>
+
+        <div class="services-grid" id="servicesGrid"></div>
+      </section>
+
+      <section class="trust-section">
+        <div class="trust-title">Reliable & Trustworthy</div>
+        <div class="trust-subtitle">Ensuring quality through simple standards</div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="icon">✅</div>
+            <p>Verified<br>Helpers</p>
+          </div>
+          <div class="trust-card">
+            <div class="icon">🧹</div>
+            <p>Trained<br>Service</p>
+          </div>
+          <div class="trust-card">
+            <div class="icon">⏱️</div>
+            <p>Reliable<br>Timing</p>
+          </div>
+        </div>
+      </section>
     </div>
 
     <!-- CART PAGE -->
     <div id="cartPage" class="page">
-      <div class="section">
-        <div class="section-title">Your Cart</div>
+      <div class="cart-panel">
+        <div class="page-title">My Cart</div>
 
-        <div class="cart-box">
+        <div class="box">
           <div id="cartItems"></div>
+        </div>
 
-          <div class="total">
-            <span>Total</span>
-            <span id="cartTotal">₹0</span>
+        <div class="box">
+          <h3 style="margin-top:0;">Bill details</h3>
+          <div class="bill-row">
+            <span>Item total</span>
+            <b id="itemTotal">₹0</b>
+          </div>
+          <div class="bill-row">
+            <span>Service fee</span>
+            <b id="serviceFee">₹0</b>
+          </div>
+          <div class="bill-row bill-total">
+            <span>To pay</span>
+            <span id="grandTotal">₹0</span>
           </div>
         </div>
 
         <div class="note">
-          Payment will be taken by QR or cash after service. No wallet and no online payment gateway.
+          Payment will be collected by QR or cash after service. No wallet and no online payment gateway.
         </div>
+
+        <button class="primary-btn" onclick="goToBooking()">Select time slot</button>
       </div>
     </div>
 
     <!-- BOOKING PAGE -->
     <div id="bookingPage" class="page">
-      <div class="section">
-        <div class="section-title">Book Service</div>
+      <div class="booking-panel">
+        <div class="page-title">Book Service</div>
 
-        <div class="booking-box">
-          <label>Your Name</label>
-          <input id="customerName" type="text" placeholder="Enter your name" />
+        <div class="box">
+          <label>Your name</label>
+          <input id="nameInput" type="text" placeholder="Enter your name" />
 
-          <label>Phone Number</label>
-          <input id="customerPhone" type="tel" placeholder="Enter phone number" />
+          <label>Phone number</label>
+          <input id="phoneInput" type="tel" placeholder="Enter phone number" />
 
-          <label>Address</label>
-          <textarea id="customerAddress" placeholder="Enter full address"></textarea>
+          <label>Full address</label>
+          <textarea id="addressInput" placeholder="House no, area, landmark"></textarea>
 
-          <label>Select Date</label>
-          <input id="bookingDate" type="date" />
+          <label>Select date</label>
+          <input id="dateInput" type="date" />
 
-          <label>Select Time Slot</label>
-          <select id="bookingTime">
-            <option value="">Choose time</option>
+          <label>Select time slot</label>
+          <select id="timeInput">
+            <option value="">Choose time slot</option>
             <option>8:00 AM - 10:00 AM</option>
             <option>10:00 AM - 12:00 PM</option>
             <option>12:00 PM - 2:00 PM</option>
@@ -319,177 +717,403 @@
             <option>4:00 PM - 6:00 PM</option>
           </select>
 
-          <button class="full-btn" onclick="placeBooking()">Place Booking</button>
+          <button class="primary-btn" onclick="placeBooking()">Place booking</button>
+        </div>
 
-          <div id="successMessage" class="success">
-            Booking placed successfully. Payment status: Pending. Customer will pay by QR or cash after service.
-          </div>
+        <div class="note">
+          Your booking status will be pending first. Admin will confirm manually.
         </div>
       </div>
     </div>
 
     <!-- BOOKINGS PAGE -->
-    <div id="myBookingsPage" class="page">
-      <div class="section">
-        <div class="section-title">My Bookings</div>
-        <div id="bookingList" class="empty">No bookings yet.</div>
+    <div id="bookingsPage" class="page">
+      <div class="cart-panel">
+        <div class="page-title">Your bookings</div>
+        <div id="bookingsList"></div>
       </div>
     </div>
 
     <!-- PROFILE PAGE -->
     <div id="profilePage" class="page">
-      <div class="section">
-        <div class="section-title">Profile</div>
+      <div class="profile-head">
+        <div class="profile-name">Debajit</div>
+        <div class="profile-phone">Home Service App</div>
+      </div>
 
-        <div class="booking-box">
-          <p><b>App:</b> Home Service App</p>
-          <p><b>Payment:</b> QR / Cash after service</p>
+      <div class="profile-menu">
+        <div class="menu-item">📋 My bookings <span>›</span></div>
+        <div class="menu-item">📍 Saved addresses <span>›</span></div>
+        <div class="menu-item">☎️ Help & Support <span>›</span></div>
+        <div class="menu-item">ℹ️ About us <span>›</span></div>
+        <div class="menu-item">🔐 Privacy policy <span>›</span></div>
+
+        <div class="box">
+          <p><b>Payment method:</b> QR / Cash after service</p>
           <p><b>Wallet:</b> Removed</p>
-          <p><b>Online Payment:</b> Removed</p>
-          <p><b>Status:</b> Prototype version</p>
+          <p><b>Online payment gateway:</b> Removed</p>
+          <p><b>Version:</b> Mobile prototype</p>
         </div>
       </div>
     </div>
+
   </div>
 
   <div class="bottom-nav">
-    <button id="homeBtn" class="active" onclick="showPage('homePage', 'homeBtn')">Home</button>
-    <button id="cartBtn" onclick="showPage('cartPage', 'cartBtn')">Cart</button>
-    <button id="bookingBtn" onclick="showPage('bookingPage', 'bookingBtn')">Book</button>
-    <button id="myBookingsBtn" onclick="showPage('myBookingsPage', 'myBookingsBtn')">Bookings</button>
-    <button id="profileBtn" onclick="showPage('profilePage', 'profileBtn')">Profile</button>
+    <button id="homeNav" class="nav-btn active" onclick="showPage('homePage', 'homeNav')">
+      <span class="nav-icon">🏠</span>Home
+    </button>
+
+    <button id="cartNav" class="nav-btn" onclick="showPage('cartPage', 'cartNav')">
+      <span class="nav-icon">🛒</span>Cart
+    </button>
+
+    <button id="bookingsNav" class="nav-btn" onclick="showPage('bookingsPage', 'bookingsNav')">
+      <span class="nav-icon">📋</span>Bookings
+    </button>
+
+    <button id="profileNav" class="nav-btn" onclick="showPage('profilePage', 'profileNav')">
+      <span class="nav-icon">👤</span>Profile
+    </button>
   </div>
 
+  <div id="toast" class="toast"></div>
+
   <script>
-    let cart = [];
-    let bookings = [];
-
-    function showPage(pageId, buttonId) {
-      const pages = document.querySelectorAll('.page');
-      pages.forEach(page => page.classList.remove('active'));
-
-      document.getElementById(pageId).classList.add('active');
-
-      const navButtons = document.querySelectorAll('.bottom-nav button');
-      navButtons.forEach(button => button.classList.remove('active'));
-
-      document.getElementById(buttonId).classList.add('active');
-    }
-
-    function addToCart(serviceName, price) {
-      cart.push({
-        name: serviceName,
-        price: price
-      });
-
-      updateCart();
-      alert(serviceName + ' added to cart');
-    }
-
-    function updateCart() {
-      const cartItems = document.getElementById('cartItems');
-      const cartTotal = document.getElementById('cartTotal');
-
-      cartItems.innerHTML = '';
-
-      if (cart.length === 0) {
-        cartItems.innerHTML = '<div class="empty">Cart is empty.</div>';
-        cartTotal.innerText = '₹0';
-        return;
+    const services = [
+      {
+        name: "Bathroom Cleaning",
+        icon: "🚽",
+        price: 49,
+        oldPrice: 150,
+        rating: "4.9",
+        reviews: "35.7k"
+      },
+      {
+        name: "Utensils",
+        icon: "🍽️",
+        price: 49,
+        oldPrice: 125,
+        rating: "4.9",
+        reviews: "28.7k"
+      },
+      {
+        name: "Sweeping & Mopping",
+        icon: "🧹",
+        price: 49,
+        oldPrice: 125,
+        rating: "4.9",
+        reviews: "35.7k"
+      },
+      {
+        name: "Dusting & Wiping",
+        icon: "🧽",
+        price: 49,
+        oldPrice: 125,
+        rating: "4.9",
+        reviews: "12.4k"
+      },
+      {
+        name: "Fridge Cleaning",
+        icon: "🧊",
+        price: 149,
+        oldPrice: 250,
+        rating: "4.9",
+        reviews: "4.4k"
+      },
+      {
+        name: "Packing or Unpacking",
+        icon: "🧳",
+        price: 49,
+        oldPrice: 125,
+        rating: "5.0",
+        reviews: "3.2k"
+      },
+      {
+        name: "Kitchen Prep",
+        icon: "🥗",
+        price: 49,
+        oldPrice: 125,
+        rating: "4.9",
+        reviews: "4.9k"
+      },
+      {
+        name: "Pre-Party Express Clean",
+        icon: "🍾",
+        price: 149,
+        oldPrice: 375,
+        rating: "4.9",
+        reviews: "3.2k"
+      },
+      {
+        name: "Complete Wardrobe",
+        icon: "👕",
+        price: 497,
+        oldPrice: 699,
+        rating: "NEW",
+        reviews: ""
       }
+    ];
 
-      let total = 0;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
 
-      cart.forEach((item, index) => {
-        total += item.price;
+    function saveData() {
+      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("bookings", JSON.stringify(bookings));
+    }
 
-        cartItems.innerHTML += `
-          <div class="cart-item">
-            <span>${item.name}</span>
-            <span>₹${item.price}</span>
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.innerText = message;
+      toast.style.display = "block";
+
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 1800);
+    }
+
+    function renderServices() {
+      const grid = document.getElementById("servicesGrid");
+      grid.innerHTML = "";
+
+      services.forEach((service, index) => {
+        const isNew = service.name === "Complete Wardrobe";
+
+        grid.innerHTML += `
+          <div class="service-card">
+            ${isNew ? '<div class="new-tag">NEW</div>' : ''}
+            <div class="rating">
+              <span>★</span> ${service.rating} ${service.reviews ? '(' + service.reviews + ')' : ''}
+            </div>
+
+            <div class="service-img">${service.icon}</div>
+
+            <div class="service-info">
+              <div class="service-name">${service.name}</div>
+
+              <div class="price-row">
+                <span class="new-price">₹${service.price}</span>
+                <span class="old-price">₹${service.oldPrice}</span>
+              </div>
+            </div>
+
+            <button class="add-btn" onclick="addToCart(${index})">+</button>
           </div>
         `;
       });
+    }
 
-      cartTotal.innerText = '₹' + total;
+    function addToCart(index) {
+      const service = services[index];
+
+      const existing = cart.find(item => item.name === service.name);
+
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          name: service.name,
+          price: service.price,
+          qty: 1
+        });
+      }
+
+      saveData();
+      renderCart();
+      showToast(service.name + " added");
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      saveData();
+      renderCart();
+      showToast("Removed from cart");
+    }
+
+    function getTotals() {
+      const itemTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const serviceFee = itemTotal > 0 ? Math.round(itemTotal * 0.05) : 0;
+      const grandTotal = itemTotal + serviceFee;
+
+      return {
+        itemTotal,
+        serviceFee,
+        grandTotal
+      };
+    }
+
+    function renderCart() {
+      const cartItems = document.getElementById("cartItems");
+      const itemTotalEl = document.getElementById("itemTotal");
+      const serviceFeeEl = document.getElementById("serviceFee");
+      const grandTotalEl = document.getElementById("grandTotal");
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div class="empty-box">
+            <div class="empty-icon">🛒</div>
+            <b>Your cart is empty</b>
+            <p>Add services from home page.</p>
+          </div>
+        `;
+      } else {
+        cartItems.innerHTML = "";
+
+        cart.forEach((item, index) => {
+          cartItems.innerHTML += `
+            <div class="cart-item">
+              <div>
+                <div class="cart-name">${item.name}</div>
+                <div class="cart-small">Qty: ${item.qty} × ₹${item.price}</div>
+              </div>
+              <div>
+                <b>₹${item.price * item.qty}</b>
+                <br>
+                <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      const totals = getTotals();
+
+      itemTotalEl.innerText = "₹" + totals.itemTotal;
+      serviceFeeEl.innerText = "₹" + totals.serviceFee;
+      grandTotalEl.innerText = "₹" + totals.grandTotal;
+    }
+
+    function goToBooking() {
+      if (cart.length === 0) {
+        showToast("Please add service first");
+        showPage("homePage", "homeNav");
+        return;
+      }
+
+      showPage("bookingPage", "cartNav");
     }
 
     function placeBooking() {
-      const name = document.getElementById('customerName').value.trim();
-      const phone = document.getElementById('customerPhone').value.trim();
-      const address = document.getElementById('customerAddress').value.trim();
-      const date = document.getElementById('bookingDate').value;
-      const time = document.getElementById('bookingTime').value;
+      const name = document.getElementById("nameInput").value.trim();
+      const phone = document.getElementById("phoneInput").value.trim();
+      const address = document.getElementById("addressInput").value.trim();
+      const date = document.getElementById("dateInput").value;
+      const time = document.getElementById("timeInput").value;
 
       if (cart.length === 0) {
-        alert('Please add at least one service to cart.');
+        showToast("Cart is empty");
         return;
       }
 
       if (!name || !phone || !address || !date || !time) {
-        alert('Please fill all booking details.');
+        showToast("Fill all booking details");
         return;
       }
 
-      let total = cart.reduce((sum, item) => sum + item.price, 0);
+      const totals = getTotals();
 
       const booking = {
-        customerName: name,
-        phone: phone,
-        address: address,
-        date: date,
-        time: time,
-        services: [...cart],
-        total: total,
-        bookingStatus: 'Pending',
-        paymentMode: 'QR / Cash',
-        paymentStatus: 'Pending'
+        id: Date.now(),
+        name,
+        phone,
+        address,
+        date,
+        time,
+        items: [...cart],
+        total: totals.grandTotal,
+        bookingStatus: "Pending",
+        paymentMode: "QR / Cash",
+        paymentStatus: "Pending"
       };
 
-      bookings.push(booking);
+      bookings.unshift(booking);
       cart = [];
-      updateCart();
-      updateBookings();
 
-      document.getElementById('successMessage').style.display = 'block';
+      saveData();
+      renderCart();
+      renderBookings();
 
-      document.getElementById('customerName').value = '';
-      document.getElementById('customerPhone').value = '';
-      document.getElementById('customerAddress').value = '';
-      document.getElementById('bookingDate').value = '';
-      document.getElementById('bookingTime').value = '';
+      document.getElementById("nameInput").value = "";
+      document.getElementById("phoneInput").value = "";
+      document.getElementById("addressInput").value = "";
+      document.getElementById("dateInput").value = "";
+      document.getElementById("timeInput").value = "";
+
+      showToast("Booking placed successfully");
+      showPage("bookingsPage", "bookingsNav");
     }
 
-    function updateBookings() {
-      const bookingList = document.getElementById('bookingList');
+    function renderBookings() {
+      const list = document.getElementById("bookingsList");
 
       if (bookings.length === 0) {
-        bookingList.innerHTML = 'No bookings yet.';
+        list.innerHTML = `
+          <div class="empty-box">
+            <div class="empty-icon">📅</div>
+            <b>No bookings yet</b>
+            <p>Your booked services will appear here.</p>
+          </div>
+        `;
         return;
       }
 
-      bookingList.innerHTML = '';
+      list.innerHTML = "";
 
-      bookings.forEach((booking, index) => {
-        let serviceNames = booking.services.map(service => service.name).join(', ');
+      bookings.forEach((booking) => {
+        const serviceNames = booking.items.map(item => `${item.name} x${item.qty}`).join(", ");
 
-        bookingList.innerHTML += `
-          <div class="booking-box" style="margin-bottom: 12px;">
-            <p><b>Booking #${index + 1}</b></p>
-            <p><b>Name:</b> ${booking.customerName}</p>
+        list.innerHTML += `
+          <div class="booking-card">
+            <h3 style="margin:0 0 8px;">Booking #${booking.id}</h3>
             <p><b>Services:</b> ${serviceNames}</p>
             <p><b>Date:</b> ${booking.date}</p>
             <p><b>Time:</b> ${booking.time}</p>
+            <p><b>Address:</b> ${booking.address}</p>
             <p><b>Total:</b> ₹${booking.total}</p>
-            <p><b>Booking Status:</b> ${booking.bookingStatus}</p>
-            <p><b>Payment:</b> ${booking.paymentMode}</p>
-            <p><b>Payment Status:</b> ${booking.paymentStatus}</p>
+
+            <div class="status-row">
+              <span class="status">Booking: ${booking.bookingStatus}</span>
+              <span class="payment-status">Payment: ${booking.paymentStatus}</span>
+            </div>
+
+            <p style="font-size:13px;color:#666;margin-bottom:0;">
+              Payment mode: ${booking.paymentMode} after service.
+            </p>
           </div>
         `;
       });
     }
 
-    updateCart();
+    function showPage(pageId, navId) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+
+      document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+      if (navId === "cartNav" && pageId === "bookingPage") {
+        document.getElementById("cartNav").classList.add("active");
+      } else {
+        document.getElementById(navId).classList.add("active");
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    function scrollToServices() {
+      document.getElementById("servicesSection").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    renderServices();
+    renderCart();
+    renderBookings();
   </script>
 </body>
   </html>
