@@ -576,6 +576,30 @@
       text-align: center;
     }
 
+    .location-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 300;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.location-card {
+  width: 100%;
+  max-width: 430px;
+  background: white;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 20px 16px 24px;
+}
+
+.location-card h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+}
+
     @media (max-width: 360px) {
       .services-grid {
         gap: 8px;
@@ -604,10 +628,10 @@
     <div id="homePage" class="page active">
       <header class="top-header">
         <div class="top-row">
-          <div class="location-box">
-            <div class="location-title">Home ▾</div>
-            <div class="location-title">Location ▾</div>
-<div class="location-sub" id="selectedLocation">Select your service location</div>
+          <div class="location-box" onclick="openLocationBox()">
+  <div class="location-title">Location ▾</div>
+  <div class="location-sub" id="selectedLocation">Select your service location</div>
+</div>
 
           <div class="header-icons">
             <div class="round-icon">₹</div>
@@ -1111,9 +1135,62 @@
       });
     }
 
+    function openLocationBox() {
+  document.getElementById("locationModal").style.display = "flex";
+}
+
+function closeLocationBox() {
+  document.getElementById("locationModal").style.display = "none";
+}
+
+function saveLocation() {
+  const area = document.getElementById("locationInput").value.trim();
+  const fullAddress = document.getElementById("locationAddressInput").value.trim();
+
+  if (!area || !fullAddress) {
+    showToast("Please enter location and address");
+    return;
+  }
+
+  localStorage.setItem("selectedArea", area);
+  localStorage.setItem("selectedAddress", fullAddress);
+
+  document.getElementById("selectedLocation").innerText = area;
+  document.getElementById("addressInput").value = fullAddress;
+
+  closeLocationBox();
+  showToast("Location saved");
+}
+
+const savedArea = localStorage.getItem("selectedArea");
+const savedAddress = localStorage.getItem("selectedAddress");
+
+if (savedArea) {
+  document.getElementById("selectedLocation").innerText = savedArea;
+}
+
+if (savedAddress) {
+  document.getElementById("addressInput").value = savedAddress;
+}
+
     renderServices();
     renderCart();
     renderBookings();
   </script>
+
+  <div id="locationModal" class="location-modal">
+  <div class="location-card">
+    <h2>Select Location</h2>
+
+    <label>Area / City</label>
+    <input id="locationInput" type="text" placeholder="Example: Nalbari, Guwahati, Mangaldai" />
+
+    <label>Full Address</label>
+    <textarea id="locationAddressInput" placeholder="House no, road, landmark"></textarea>
+
+    <button class="primary-btn" onclick="saveLocation()">Save Location</button>
+    <button class="secondary-btn" onclick="closeLocationBox()">Cancel</button>
+  </div>
+  </div>
 </body>
   </html>
