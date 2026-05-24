@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Service App</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #ffffff;
+      padding-bottom: 80px;
+    }
+
+    .header {
+      background: #1f7a4d;
+      color: white;
+      padding: 20px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    .service-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8faf9;
+      border: 1px solid #e1e8e4;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .service-info h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .service-info p {
+      margin: 6px 0 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #1f7a4d;
+      margin-top: 6px;
+    }
+
+    button {
+      border: none;
+      background: #1f7a4d;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .cart-box {
+      background: #fff7e6;
+      border: 1px solid #f0d59c;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #edd8aa;
+      font-size: 14px;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .booking-box {
+      background: #f8faf9;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid #e1e8e4;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin: 12px 0 6px;
+      color: #444;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    .full-btn {
+      width: 100%;
+      margin-top: 16px;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 14px;
+    }
+
+    .note {
+      background: #eaf7ef;
+      color: #1f7a4d;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+
+    .empty {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .success {
+      display: none;
+      background: #eaf7ef;
+      border: 1px solid #b6e0c3;
+      color: #1f7a4d;
+      padding: 14px;
+      border-radius: 16px;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 430px;
+      width: 100%;
+      background: white;
+      border-top: 1px solid #ddd;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    .bottom-nav button {
+      background: none;
+      color: #333;
+      font-size: 13px;
+      padding: 8px;
+    }
+
+    .bottom-nav button.active {
+      color: #1f7a4d;
+      font-weight: bold;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="header">
+      <h1>Home Service App</h1>
+      <p>Book trusted home services near you</p>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div id="homePage" class="page active">
+      <div class="section">
+        <div class="section-title">Available Services</div>
+
+        <div class="service-card">
+          <div class="service-info">
+            <h3>Room Cleaning</h3>
+            <p>Basic room cleaning service</p>
+            <div class="price">₹299</div>
+          </div>
+          <button onclick="addToCart('Room Cleaning', 299)">Add</button>
+        </div>
+
+        <div class="service-card">
+          <div class="service-info">
+            <h3>Bathroom Cleaning</h3>
+            <p>Deep bathroom cleaning</p>
+            <div class="price">₹399</div>
+          </div>
+          <button onclick="addToCart('Bathroom Cleaning', 399)">Add</button>
+        </div>
+
+        <div class="service-card">
+          <div class="service-info">
+            <h3>Kitchen Cleaning</h3>
+            <p>Kitchen platform and floor cleaning</p>
+            <div class="price">₹499</div>
+          </div>
+          <button onclick="addToCart('Kitchen Cleaning', 499)">Add</button>
+        </div>
+
+        <div class="service-card">
+          <div class="service-info">
+            <h3>Full Home Cleaning</h3>
+            <p>Complete home cleaning package</p>
+            <div class="price">₹999</div>
+          </div>
+          <button onclick="addToCart('Full Home Cleaning', 999)">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CART PAGE -->
+    <div id="cartPage" class="page">
+      <div class="section">
+        <div class="section-title">Your Cart</div>
+
+        <div class="cart-box">
+          <div id="cartItems"></div>
+
+          <div class="total">
+            <span>Total</span>
+            <span id="cartTotal">₹0</span>
+          </div>
+        </div>
+
+        <div class="note">
+          Payment will be taken by QR or cash after service. No wallet and no online payment gateway.
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKING PAGE -->
+    <div id="bookingPage" class="page">
+      <div class="section">
+        <div class="section-title">Book Service</div>
+
+        <div class="booking-box">
+          <label>Your Name</label>
+          <input id="customerName" type="text" placeholder="Enter your name" />
+
+          <label>Phone Number</label>
+          <input id="customerPhone" type="tel" placeholder="Enter phone number" />
+
+          <label>Address</label>
+          <textarea id="customerAddress" placeholder="Enter full address"></textarea>
+
+          <label>Select Date</label>
+          <input id="bookingDate" type="date" />
+
+          <label>Select Time Slot</label>
+          <select id="bookingTime">
+            <option value="">Choose time</option>
+            <option>8:00 AM - 10:00 AM</option>
+            <option>10:00 AM - 12:00 PM</option>
+            <option>12:00 PM - 2:00 PM</option>
+            <option>2:00 PM - 4:00 PM</option>
+            <option>4:00 PM - 6:00 PM</option>
+          </select>
+
+          <button class="full-btn" onclick="placeBooking()">Place Booking</button>
+
+          <div id="successMessage" class="success">
+            Booking placed successfully. Payment status: Pending. Customer will pay by QR or cash after service.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKINGS PAGE -->
+    <div id="myBookingsPage" class="page">
+      <div class="section">
+        <div class="section-title">My Bookings</div>
+        <div id="bookingList" class="empty">No bookings yet.</div>
+      </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="profilePage" class="page">
+      <div class="section">
+        <div class="section-title">Profile</div>
+
+        <div class="booking-box">
+          <p><b>App:</b> Home Service App</p>
+          <p><b>Payment:</b> QR / Cash after service</p>
+          <p><b>Wallet:</b> Removed</p>
+          <p><b>Online Payment:</b> Removed</p>
+          <p><b>Status:</b> Prototype version</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button id="homeBtn" class="active" onclick="showPage('homePage', 'homeBtn')">Home</button>
+    <button id="cartBtn" onclick="showPage('cartPage', 'cartBtn')">Cart</button>
+    <button id="bookingBtn" onclick="showPage('bookingPage', 'bookingBtn')">Book</button>
+    <button id="myBookingsBtn" onclick="showPage('myBookingsPage', 'myBookingsBtn')">Bookings</button>
+    <button id="profileBtn" onclick="showPage('profilePage', 'profileBtn')">Profile</button>
+  </div>
+
+  <script>
+    let cart = [];
+    let bookings = [];
+
+    function showPage(pageId, buttonId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active'));
+
+      document.getElementById(pageId).classList.add('active');
+
+      const navButtons = document.querySelectorAll('.bottom-nav button');
+      navButtons.forEach(button => button.classList.remove('active'));
+
+      document.getElementById(buttonId).classList.add('active');
+    }
+
+    function addToCart(serviceName, price) {
+      cart.push({
+        name: serviceName,
+        price: price
+      });
+
+      updateCart();
+      alert(serviceName + ' added to cart');
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cartItems');
+      const cartTotal = document.getElementById('cartTotal');
+
+      cartItems.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<div class="empty">Cart is empty.</div>';
+        cartTotal.innerText = '₹0';
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <span>${item.name}</span>
+            <span>₹${item.price}</span>
+          </div>
+        `;
+      });
+
+      cartTotal.innerText = '₹' + total;
+    }
+
+    function placeBooking() {
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+      const address = document.getElementById('customerAddress').value.trim();
+      const date = document.getElementById('bookingDate').value;
+      const time = document.getElementById('bookingTime').value;
+
+      if (cart.length === 0) {
+        alert('Please add at least one service to cart.');
+        return;
+      }
+
+      if (!name || !phone || !address || !date || !time) {
+        alert('Please fill all booking details.');
+        return;
+      }
+
+      let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+      const booking = {
+        customerName: name,
+        phone: phone,
+        address: address,
+        date: date,
+        time: time,
+        services: [...cart],
+        total: total,
+        bookingStatus: 'Pending',
+        paymentMode: 'QR / Cash',
+        paymentStatus: 'Pending'
+      };
+
+      bookings.push(booking);
+      cart = [];
+      updateCart();
+      updateBookings();
+
+      document.getElementById('successMessage').style.display = 'block';
+
+      document.getElementById('customerName').value = '';
+      document.getElementById('customerPhone').value = '';
+      document.getElementById('customerAddress').value = '';
+      document.getElementById('bookingDate').value = '';
+      document.getElementById('bookingTime').value = '';
+    }
+
+    function updateBookings() {
+      const bookingList = document.getElementById('bookingList');
+
+      if (bookings.length === 0) {
+        bookingList.innerHTML = 'No bookings yet.';
+        return;
+      }
+
+      bookingList.innerHTML = '';
+
+      bookings.forEach((booking, index) => {
+        let serviceNames = booking.services.map(service => service.name).join(', ');
+
+        bookingList.innerHTML += `
+          <div class="booking-box" style="margin-bottom: 12px;">
+            <p><b>Booking #${index + 1}</b></p>
+            <p><b>Name:</b> ${booking.customerName}</p>
+            <p><b>Services:</b> ${serviceNames}</p>
+            <p><b>Date:</b> ${booking.date}</p>
+            <p><b>Time:</b> ${booking.time}</p>
+            <p><b>Total:</b> ₹${booking.total}</p>
+            <p><b>Booking Status:</b> ${booking.bookingStatus}</p>
+            <p><b>Payment:</b> ${booking.paymentMode}</p>
+            <p><b>Payment Status:</b> ${booking.paymentStatus}</p>
+          </div>
+        `;
+      });
+    }
+
+    updateCart();
+  </script>
+</body>
+  </html>
