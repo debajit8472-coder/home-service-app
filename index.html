@@ -727,6 +727,12 @@
 
           <label>Full address</label>
           <textarea id="addressInput" placeholder="House no, area, landmark"></textarea>
+          <label>Live photo for safety verification</label>
+<input id="livePhotoInput" type="file" accept="image/*" capture="user" />
+
+<div class="note" style="margin-top:10px;">
+  Take a live photo for safety verification. Only admin should review this before assigning worker.
+</div>
 
           <label>Select date</label>
           <input id="dateInput" type="date" />
@@ -1024,6 +1030,7 @@
       const address = document.getElementById("addressInput").value.trim();
       const date = document.getElementById("dateInput").value;
       const time = document.getElementById("timeInput").value;
+      const livePhoto = document.getElementById("livePhotoInput").files[0];
 
       if (cart.length === 0) {
         showToast("Cart is empty");
@@ -1031,9 +1038,14 @@
       }
 
       if (!name || !phone || !address || !date || !time) {
-        showToast("Fill all booking details");
-        return;
-      }
+  showToast("Fill all booking details");
+  return;
+}
+
+if (!livePhoto) {
+  showToast("Please take live photo for safety");
+  return;
+}
 
       const totals = getTotals();
 
@@ -1048,7 +1060,9 @@
         total: totals.grandTotal,
         bookingStatus: "Pending",
         paymentMode: "QR / Cash",
-        paymentStatus: "Pending"
+        paymentStatus: "Pending",
+livePhotoAdded: "Yes",
+verificationStatus: "Pending admin verification"
       };
 
       bookings.unshift(booking);
@@ -1063,6 +1077,8 @@
       document.getElementById("addressInput").value = "";
       document.getElementById("dateInput").value = "";
       document.getElementById("timeInput").value = "";
+      document.getElementById("livePhotoInput").value = "";
+    
 
       showToast("Booking placed successfully");
       showPage("bookingsPage", "bookingsNav");
@@ -1095,6 +1111,8 @@
             <p><b>Time:</b> ${booking.time}</p>
             <p><b>Address:</b> ${booking.address}</p>
             <p><b>Total:</b> ₹${booking.total}</p>
+            <p><b>Live Photo:</b> ${booking.livePhotoAdded}</p>
+<p><b>Verification:</b> ${booking.verificationStatus}</p>
 
             <div class="status-row">
               <span class="status">Booking: ${booking.bookingStatus}</span>
