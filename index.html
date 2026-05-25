@@ -1144,12 +1144,70 @@ Please call customer and confirm before assigning worker.`;
               <span class="payment-status">Payment: ${booking.paymentStatus}</span>
             </div>
 
-            <p style="font-size:13px;color:#666;margin-bottom:0;">
-              Payment mode: ${booking.paymentMode} after service.
-            </p>
+            <p style="font-size:13px;color:#666;margin-bottom:10px;">
+  Payment mode: ${booking.paymentMode} after service.
+</p>
+
+${booking.bookingStatus === "Cancelled" ? "" : `
+  <button class="remove-btn" onclick="cancelBooking(${booking.id})">
+    Cancel Booking
+  </button>
+`}
           </div>
         `;
       });
+    }
+
+    function cancelBooking(bookingId) {
+  const adminWhatsAppNumber = "919101324796";
+
+  const booking = bookings.find(item => item.id === bookingId);
+
+  if (!booking) {
+    showToast("Booking not found");
+    return;
+  }
+
+  const confirmCancel = confirm("Are you sure you want to cancel this booking?");
+
+  if (!confirmCancel) {
+    return;
+  }
+
+  booking.bookingStatus = "Cancelled";
+  booking.paymentStatus = "Not required";
+
+  saveData();
+  renderBookings();
+
+  const serviceNames = booking.items
+    .map(item => `${item.name} x${item.qty}`)
+    .join(", ");
+
+  const message =
+`Booking Cancellation Request
+
+Customer Name: ${booking.name}
+Phone: ${booking.phone}
+Address: ${booking.address}
+
+Services: ${serviceNames}
+Date: ${booking.date}
+Time: ${booking.time}
+Total: ₹${booking.total}
+
+Booking Status: Cancelled by customer
+
+Please update admin record.`;
+
+  const whatsappUrl =
+    "https://wa.me/" +
+    adminWhatsAppNumber +
+    "?text=" +
+    encodeURIComponent(message);
+
+  showToast("Opening WhatsApp cancellation");
+  window.open(whatsappUrl, "_blank");
     }
 
     function showPage(pageId, navId) {
