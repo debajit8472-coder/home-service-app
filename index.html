@@ -1025,65 +1025,90 @@
     }
 
     function placeBooking() {
-      const name = document.getElementById("nameInput").value.trim();
-      const phone = document.getElementById("phoneInput").value.trim();
-      const address = document.getElementById("addressInput").value.trim();
-      const date = document.getElementById("dateInput").value;
-      const time = document.getElementById("timeInput").value;
-      const livePhoto = document.getElementById("livePhotoInput").files[0];
+  const adminWhatsAppNumber = "919101324796";
 
-      if (cart.length === 0) {
-        showToast("Cart is empty");
-        return;
-      }
+  const name = document.getElementById("nameInput").value.trim();
+  const phone = document.getElementById("phoneInput").value.trim();
+  const address = document.getElementById("addressInput").value.trim();
+  const date = document.getElementById("dateInput").value;
+  const time = document.getElementById("timeInput").value;
 
-      if (!name || !phone || !address || !date || !time) {
-  showToast("Fill all booking details");
-  return;
+  if (cart.length === 0) {
+    showToast("Cart is empty");
+    return;
+  }
+
+  if (!name || !phone || !address || !date || !time) {
+    showToast("Fill all booking details");
+    return;
+  }
+
+  const totals = getTotals();
+
+  const serviceNames = cart
+    .map(item => `${item.name} x${item.qty} = ₹${item.price * item.qty}`)
+    .join("\n");
+
+  const message =
+`New Home Service Booking
+
+Customer Name: ${name}
+Phone: ${phone}
+Address: ${address}
+
+Services:
+${serviceNames}
+
+Date: ${date}
+Time: ${time}
+
+Item Total: ₹${totals.itemTotal}
+Service Fee: ₹${totals.serviceFee}
+Total: ₹${totals.grandTotal}
+
+Payment Mode: QR / Cash after service
+Booking Status: Pending admin verification
+
+Please call customer and confirm before assigning worker.`;
+
+  const whatsappUrl =
+    "https://wa.me/" +
+    adminWhatsAppNumber +
+    "?text=" +
+    encodeURIComponent(message);
+
+  const booking = {
+    id: Date.now(),
+    name,
+    phone,
+    address,
+    date,
+    time,
+    items: [...cart],
+    total: totals.grandTotal,
+    bookingStatus: "Pending admin verification",
+    paymentMode: "QR / Cash",
+    paymentStatus: "Pending"
+  };
+
+  bookings.unshift(booking);
+  cart = [];
+
+  saveData();
+  renderCart();
+  renderBookings();
+
+  document.getElementById("nameInput").value = "";
+  document.getElementById("phoneInput").value = "";
+  document.getElementById("addressInput").value = "";
+  document.getElementById("dateInput").value = "";
+  document.getElementById("timeInput").value = "";
+
+  showToast("Opening WhatsApp booking");
+  window.open(whatsappUrl, "_blank");
+
+  showPage("bookingsPage", "bookingsNav");
 }
-
-if (!livePhoto) {
-  showToast("Please take live photo for safety");
-  return;
-}
-
-      const totals = getTotals();
-
-      const booking = {
-        id: Date.now(),
-        name,
-        phone,
-        address,
-        date,
-        time,
-        items: [...cart],
-        total: totals.grandTotal,
-        bookingStatus: "Pending",
-        paymentMode: "QR / Cash",
-        paymentStatus: "Pending",
-livePhotoAdded: "Yes",
-verificationStatus: "Pending admin verification"
-      };
-
-      bookings.unshift(booking);
-      cart = [];
-
-      saveData();
-      renderCart();
-      renderBookings();
-
-      document.getElementById("nameInput").value = "";
-      document.getElementById("phoneInput").value = "";
-      document.getElementById("addressInput").value = "";
-      document.getElementById("dateInput").value = "";
-      document.getElementById("timeInput").value = "";
-      document.getElementById("livePhotoInput").value = "";
-    
-
-      showToast("Booking placed successfully");
-      showPage("bookingsPage", "bookingsNav");
-    }
-
     function renderBookings() {
       const list = document.getElementById("bookingsList");
 
